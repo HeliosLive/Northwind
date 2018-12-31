@@ -1,0 +1,60 @@
+<h4 class="page-header">Products</h4>
+<!-- <div class="alert alert-success" *ngIf="addedProduct">   /// ARTIK SIMPLE-NOTIFICATIONS VAR BUNA GEREK YOK
+{{addedProduct}} added to Cart
+</div> -->
+<div *ngIf="filterText">
+  You searched for
+  <strong>{{filterText}}</strong>
+</div>
+<div>
+  <input class="form-control mr-sm-2" type="search" placeholder="Search Something" aria-label="Search" [(ngModel)]="filterText">
+</div>
+<div>
+  <ul class="list-group">
+    <li *ngFor="let product of products | productFilter:filterText | slice:(pager.currentPage-1)*pager.pageSize:((pager.currentPage-1)*pager.pageSize)+pager.pageSize" class="list-group-item">
+      <!--burada product derken foreachteki item i belirtiriz, products ise componentten gelen arraydir.-->
+      <button (click)="addToCart(product)" class="btn btn-xs btn-primary float-right" style="margin-top: 2%;">
+        <!--for dan gelen itemi yani product ı gönderiyoruz methoda-->
+        <i class="fa fa-plus"></i> Add to cart
+      </button>
+      <h5>
+        <strong>{{product.productName}}</strong>
+        <i class="fa fa-question-circle" style="color:gold" 
+         tooltipClass="my-custom-class" ngbTooltip="{{product.productName}} ,{{product.unitPrice|currency}}">
+      </i> 
+           <i class="fa fa-info-circle" (click)="openVerticallyCentered(content,product.productId)" style="color: red"></i>
+      </h5> 
+      <p>{{product.quantityPerUnit}}</p>
+      <h6>{{product.unitPrice | currency}} (Kdv'siz Fiyat : {{product.unitPrice |vatAdded:-18 | currency}}) </h6>
+    </li>
+  </ul>
+</div>
+ 
+<ngb-pagination style="cursor:pointer;"  class="d-flex justify-content-center" 
+            [collectionSize]="totality" [maxSize]="5" [rotate]="true" 
+             [(page)]="pager.currentPage" [boundaryLinks]="true"  > 
+</ngb-pagination>
+ 
+
+<ng-template #content let-modal>ng ser
+  <div class="modal-header">
+    <h4 class="modal-title">Product's Information</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Id : {{_MproductId}} </p>  <!--&hellip;  3 nokta bırakıyor...-->
+    <p>Adı : {{_MproductName}} </p>
+    <p>Fiyatı : {{_MunitPrice|currency}} </p>
+    <p>Kdv'siz Fiyatı : {{_MunitPrice|vatAdded:-18|currency}} </p>
+    <p>Stok Adedi : {{_MunitInStock}} </p>
+    <p>Satış Adedi : {{_MquantityPerUnit}} </p>
+    <p>Kategori Id : {{_McategoryId}} </p>
+    <p>Kategori Adı : {{_McategoryName}} </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+ 

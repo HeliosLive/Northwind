@@ -1,0 +1,26 @@
+<h4 class="page-header">
+    Categories</h4>
+<div class="list-group">
+    <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="products" class="list-group-item" (click)="onSelect()">All 
+        <i style="color:crimson;">({{AllCount}} toplam ürün)</i>
+        <!-- <i style="color:crimson"><br>({{ 0 |categoryProductItems : ""}} total Prducts) </i> -->
+    </a>
+    <a class="list-group-item" routerLinkActive="active" (click)="onSelect(item)" *ngFor="let item of categories" routerLink="products/{{item.seoUrl}}">
+        {{item.categoryName}} <i style="color:crimson;font-size: 12px"> ({{item.productCount}} ürün) </i>
+        <!-- <i style="color:crimson">({{ item.categoryId |categoryProductItems : item.seoUrl:item.categoryId}})  </i> -->
+        <!-- <i style="color:crimson"> ({{item.productCount}})  {{getCountProduct(item.seoUrl,item.categoryId)}} </i> -->
+    </a>
+</div>
+
+<!-- 
+<li class="list-group-item dropdown-item" routerLinkActive="active" 
+(click)="onSelect(category)" *ngFor="let category of categories" routerlink="products/{{category.seoUrl}}">
+<a> {{category.categoryName}} </a>  /// (({{category.categoryName | categoryProductItems : category.categoryId}}))  
+</li>  -->
+
+<!-- 
+<ul>
+    <li class="list-group-item dropdown-item" *ngFor="let item of categories">
+        <a [routerLink]="['/product/',item.seoUrl]" (click)="onSelect(item)">{{item.categoryName}} </a> 
+    </li>
+</ul> -->

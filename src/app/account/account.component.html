@@ -1,0 +1,31 @@
+<div class="container">
+  <div id="loginBox" class="col-md-7">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title text-center">Login</div>
+      </div>
+      <div class="panel-body">
+        <form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)" id="formAccount" class="form-horizontal">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-user"></i>
+            </span>
+            <input type="text" class="form-control" name="user" [(ngModel)]="user" placeholder="User Name">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-lock"></i>
+            </span>
+            <input type="password" class="form-control" name="password" [(ngModel)]="password" placeholder="Password">
+          </div> 
+          <button type="submit" class="btn btn-primary" style="margin-left:205px">
+            <i class="fa fa-sign-in-alt"></i> Login</button> 
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+    <div class="col-md-7 alert alert-danger" style="color:red;text-align: center;margin-left: 10px;" *ngIf="message">{{message}}</div> 
+</div>
+
+ 

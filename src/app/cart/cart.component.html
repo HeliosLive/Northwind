@@ -1,0 +1,65 @@
+<h4 class="page-header">Your Cart
+  <a *ngIf="cartItems.length > 0 " routerLink="/shipping-detail" class="btn btn-xs btn-primary pull-right">
+    Complete Shopping ?
+    <i class="fa fa-arrow-right"></i>
+  </a>
+
+</h4>
+
+<table class="table table-responsive" *ngIf="cartItems.length > 0 ; else cartEmptyContent">
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Description</th>
+      <th>Unit Price</th>
+      <th>Units In Stock</th>
+      <th>Total</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cartItem of cartItems">
+      <td>{{cartItem.product.productName}}</td>
+      <td>{{cartItem.product.quantityPerUnit}}</td>
+      <td>{{cartItem.product.unitPrice | currency}}</td>
+      <td>{{cartItem.quantity}}</td>
+      <td>{{cartItem.quantity*cartItem.product.unitPrice | currency}}</td>
+      <td>
+        <button class="btn btn-xs btn-danger" (click)="removeFromCart(cartItem.product)">
+          Remove From Cart!
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-xs btn-warning" (click)="decreaseFromCart(cartItem.product)">
+          Decrease -1 From Cart!
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ng-template #cartEmptyContent>
+  <div class="alert alert-info col-md-11" style="text-align:center">
+    Your Cart is Empty!
+  </div>
+</ng-template>
+
+<br>
+<br>
+<div *ngIf="cartItems.length ==0 && cartToList">
+  <h4 class="page-header" style="margin-left: 100px;"> Cookie de tutulan satın alımlar : </h4>
+  <p class="page-header" style="margin-left: 100px;"> Son çıkışınızda aşağıdaki satın alımları yapmadınız. Şuan eklemek ister misiniz?  </p>
+  <button class="btn btn-xs btn-success" (click)="addFromCookies()">
+    Evet Eklensin 
+  </button>
+  <button class="btn btn-xs btn-danger pull-right" (click)="removeFromCookies()">
+    Hayır sıfırdan başlamak istiyorum !
+  </button>
+  <ul>
+    <li *ngFor="let item of cartToList">
+      <a>Adet : {{item.quantity}} , </a>
+      <a>Toplam Fiyat : {{item.quantity*item.product.unitPrice | currency}} , </a>
+      <a>Ürün Adı : {{item.product.productName}}</a>
+    </li>
+  </ul>
+</div>

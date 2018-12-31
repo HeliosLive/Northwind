@@ -1,0 +1,31 @@
+<ul class="navbar-nav navbar-right">
+  <!--mr-auto mr-sm-2-->
+  <li class="nav-item dropdown">
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown" ngbDropdown placement="bottom-right">
+          <!--menü sağa açılıyordu sayfa büyümesin diye placement="bottom-right"  eklendi-->
+          <a class="nav-link dropdown-toggle" id="id01" href="javascript:void(0)" ngbDropdownToggle>
+            <i class="fa fa-shopping-cart"></i>: {{totalCartItemPrice |currency:'USD':true}}({{totalCartItem}})</a>
+          <div class="dropdown-menu" aria-labelledby="id01" ngbDropdownMenu>
+            <li *ngFor="let item of cartItems">
+              <a class="dropdown-item">
+                <button (click)="decreaseFromCart(item.product)" class="btn btn-xs btn-warning" title="Just decrease -1 this product">
+                    <i class="fa fa-arrow-circle-down"></i>
+                </button>
+                <button (click)="removeFromCart(item.product)" class="btn btn-xs btn-danger" title="Remove This Product from Cart">
+                  <i class="fa fa-times"></i>
+                </button>
+                {{item.product.productName |uppercase}}({{item.quantity}})
+              </a>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" routerLink="my-cart">Go To Cart</a>
+            </li>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>

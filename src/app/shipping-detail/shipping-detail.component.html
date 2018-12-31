@@ -1,0 +1,77 @@
+<h4 class="page-header">Shipping Details</h4>
+
+<form #shippingForm="ngForm" (ngSubmit)="checkout(shippingForm)">
+  <div class="form-group" [class.has-error]="fullName.invalid&&fullName.dirty">
+    <label class="control-label" for="fullName">FullName</label>
+    <span *ngIf="fullName.invalid&&(fullName.dirty||fullName.touched)" style="color:red"> (This field is Required !)</span>
+    <input (change)="isDirty=true" #fullName="ngModel" type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="model.fullName"
+      required>
+  </div>
+
+  <div class="form-group" [class.has-error]="address.invalid&&address.dirty">
+    <label class="control-label" for="address">Address</label>
+    <span *ngIf="address.invalid&&(address.dirty||address.touched)" style="color:red"> (This field is Required and at least 10 characters !)</span>
+    <textarea (change)="isDirty=true" #address="ngModel" type="text" class="form-control" id="address" name="address" rows="3"
+      minlength="10" [(ngModel)]="model.address" required></textarea>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-md-5">
+      <label for="cargoFirm">Optional Cargo Firm</label>
+      <input id="cargoFirm" name="cargoFirm" type="text" class="form-control" [(ngModel)]="model.cargoFirm" (change)="isDirty=true"
+        [ngbTypeahead]="search" (focus)="focus$.next($event.target.value)" (click)="click$.next($event.target.value)" #instance="ngbTypeahead"
+      />
+    </div>
+
+    <div class="form-group col-md-5">
+      <label for="optionCategory">Optional Category for later Shoppings</label>
+      <input id="optionCategory" name="optionCategory" type="text" class="form-control" [(ngModel)]="model.optionCategory" (change)="isDirty=true"
+        [ngbTypeahead]="searchCategory" (focus)="focus$.next($event.target.value)" (click)="click$.next($event.target.value)"
+        #instance="ngbTypeahead" />
+    </div>
+  </div>
+
+  <p>When do you want we to do your order?</p>
+
+  <div class="col-md-12 row">
+    <div class="col-md-5">
+      <ngb-datepicker #dp [(ngModel)]="model.deliveryDate" [startDate]="{year: 2018, month: 7,day:1}" 
+      [minDate]="{year: 2018, month: 8, day: 1}" [maxDate]="{year: 2019, month: 12, day: 30}" 
+      name="deliveryDate" [markDisabled]="isDateDisabled" 
+      (navigate)="date = $event.next"></ngb-datepicker>
+    </div>
+    <div class="col-md-4">
+
+      <button class="btn btn-sm btn-outline-primary mr-2" (click)="selectToday()">No I want Today</button>
+      <button class="btn btn-sm btn-outline-success mr-2" (click)="dp.navigateTo()">Go to current month</button>
+      <button class="btn btn-sm btn-outline-warning mr-2" (click)="dp.navigateTo({day: 14, month: 2, year: 2019 })">Go to Next Valentines Day</button>
+      <button class="btn btn-sm btn-outline-warning mr-2" (click)="valentinesDay()"> Valentines Day</button>
+
+      <hr/>
+
+      <pre>You Picked :{{ date.today }}.{{ date.month }}.{{ date.year }}</pre>
+      <pre>Model: {{ dateModel | json }}</pre>
+
+    </div>
+  </div>
+ 
+  <div class="form-group" [ngClass]="{'has-error':city.value==-1&&city.dirty}">
+    <label class="control-label" for="cityId">City</label>
+    <span *ngIf="city.value==-1&&(city.dirty ||city.touched) " style="color:red"> (This field is Required !)</span>
+    <select #city="ngModel" name="cityId" id="cityId" required class="form-control" [(ngModel)]="model.cityId">
+      <option value="-1" selected>--Select--</option>
+      <option *ngFor="let item of cities" value="{{item.id}}">{{item.name}}</option>
+    </select>
+  </div>
+
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" [(ngModel)]="model.isGift" name="isGift"> Is Gift ?
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="shippingForm.invalid" (click)="checkout()">Complete Shopping</button>
+</form>
+
+<div *ngIf="isShoppingCompleted">
+  <ngb-alert [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+</div>
